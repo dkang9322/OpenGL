@@ -1,0 +1,20 @@
+# MetaFiles #
+#############
+*~
+
+# OBJECT FILES #
+################
+*.o
+*.d
+
+# EXECUTABLES #
+###############
+*.x
+
+# LIBRARIES #
+#############
+*.a
+
+# ZIPPED FILES #
+################
+*.zip
