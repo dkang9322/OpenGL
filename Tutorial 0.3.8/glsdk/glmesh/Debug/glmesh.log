@@ -1,0 +1,24 @@
+﻿Build started 1/29/2014 4:55:20 PM.
+     1>Project "C:\Users\DKang\dev\opengl\6s096\OpenGL\Tutorial 0.3.8\glsdk\glmesh\glmesh.vcxproj" on node 3 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Iinclude /Isource /I..\glload\include /I..\glutil\include /I..\glm /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _SCL_SECURE_NO_WARNINGS /D WIN32 /D DEBUG /D _DEBUG /D MEMORY_DEBUGGING /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"lib\glmeshD.pdb" /Gd /TP /analyze- /errorReport:prompt source\Draw.cpp source\GenHelper.cpp source\Mesh.cpp source\Quadrics.cpp source\StreamBuffer.cpp source\VertexFormat.cpp
+         VertexFormat.cpp
+         StreamBuffer.cpp
+         Quadrics.cpp
+         Mesh.cpp
+         GenHelper.cpp
+         Draw.cpp
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"lib\glmeshD.lib" /NOLOGO Debug\Draw.obj
+         Debug\GenHelper.obj
+         Debug\Mesh.obj
+         Debug\Quadrics.obj
+         Debug\StreamBuffer.obj
+         Debug\VertexFormat.obj
+         glmesh.vcxproj -> C:\Users\DKang\dev\opengl\6s096\OpenGL\Tutorial 0.3.8\glsdk\glmesh\lib\glmeshD.lib
+     1>Done Building Project "C:\Users\DKang\dev\opengl\6s096\OpenGL\Tutorial 0.3.8\glsdk\glmesh\glmesh.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:08.82
