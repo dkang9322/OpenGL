@@ -1,7 +1,7 @@
 //Copyright (C) 2010-2012 by Jason L. McKesson
 //This file is licensed under the MIT License.
 
-
+#include <iostream> // For debugging purposes
 
 #include <algorithm>
 #include <string>
@@ -88,7 +88,7 @@ const std::string strFragmentShader(
 	"out vec4 outputColor;\n"
 	"void main()\n"
 	"{\n"
-	"   outputColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);\n"
+	"   outputColor = vec4(0.5f, 0.5f, 0.5f, 0.7f);\n"
 	"}\n"
 );
 
@@ -108,6 +108,12 @@ const float vertexPositions[] = {
 	0.75f, 0.75f, 0.0f, 1.0f,
 	0.75f, -0.75f, 0.0f, 1.0f,
 	-0.75f, -0.75f, 0.0f, 1.0f,
+	// Added 3 more vertices, according change transfer and init
+	-0.5f, 0.35f, 1.5f, 1.0f, // corresponds to middle vertex
+	// Ah-hah! With z=1.5f, roughly 2/3 of the middle part is gone
+	-0.75f, -0.55f, 0.0f, 1.0f, // corresponds to lowest vertex
+	-0.75f, 0.5f, 0.5f, 1.0f, // corresponds to highest
+
 };
 
 GLuint positionBufferObject;
@@ -119,7 +125,9 @@ void InitializeVertexBuffer()
 	glGenBuffers(1, &positionBufferObject);
 
 	glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
+	
+	// No need to edit init, maybe transfer, since sizeof operator
+	glBufferData( GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW );
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -147,7 +155,8 @@ void display()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	// Yes Need to change Rendering
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	glDisableVertexAttribArray(0);
 	glUseProgram(0);
@@ -159,7 +168,16 @@ void display()
 //This is an opportunity to call glViewport or glScissor to keep up with the change in size.
 void reshape (int w, int h)
 {
-	glViewport(0, 0, (GLsizei) w, (GLsizei) h);
+  float sc1 = 1.0f / 4;
+  float sc2 = 1.0f / 2;
+  
+  std::cout << "Size of w, h is " << w << " "<< h << "\n";
+  auto gl_w = ( GLsizei ) ( ( w * sc1 ) );
+  auto gl_w2 = ( GLsizei ) ( ( w * sc2 ) );
+  auto gl_h = ( GLsizei ) ( ( h * sc1 ) );
+  auto gl_h2 = ( GLsizei ) ( ( h * sc2 ) );
+  // Height Width specified by latter TWO!
+  glViewport( gl_w , gl_h , gl_w2, gl_h2 );
 }
 
 //Called whenever a key on the keyboard was pressed.
