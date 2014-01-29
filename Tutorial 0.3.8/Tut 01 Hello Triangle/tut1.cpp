@@ -146,7 +146,8 @@ void init()
 //If you need continuous updates of the screen, call glutPostRedisplay() at the end of the function.
 void display()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+  float cl = 0.75f;
+  glClearColor( cl-0.25f, cl+0.25f, cl-0.5f, 0 );
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glUseProgram(theProgram);
