@@ -43,7 +43,8 @@ void InitializeVertexBuffer()
 	glGenBuffers(1, &vertexBufferObject);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
+	// Init doesn't really change
+	glBufferData( GL_ARRAY_BUFFER, sizeof( vertexData ), vertexData, GL_STATIC_DRAW );
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -68,10 +69,16 @@ void display()
 	glUseProgram(theProgram);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)48);
+	// Attributes are now two!
+	glEnableVertexAttribArray( 0 ); // This sets layout(location) field for
+	// Vertex Shader (e.g. location=0 for position/ location=1 for color)
+	glEnableVertexAttribArray( 1 );
+	// 6th Param: BYTE Offset (Note Byte Addressing)
+	// So each vertex -> 4Bytes/Float * 4Floats/Position = 16Bytes/Pos.
+	// So vertexBufferObj has three Position stored contiguously:
+	// 16 * 3 Bytes Contigiously for Position
+	glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 0, 0 );
+	glVertexAttribPointer( 1, 4, GL_FLOAT, GL_FALSE, 0, ( void* ) 48 );
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 

@@ -28,9 +28,9 @@ void InitializeProgram()
 }
 
 const float vertexData[] = {
-	0.75f, 0.75f, 0.0f, 1.0f,
-	0.75f, -0.75f, 0.0f, 1.0f,
-	-0.75f, -0.75f, 0.0f, 1.0f,
+  0.75f, 0.75f, 0.0f, 1.0f, // Should give Neutral Pink, Top Right
+  0.75f, -0.75f, -0.5f, 1.0f, // Bottom Right, give One Extreme
+  -0.75f, -0.75f, 0.5f, 1.0f, // Bottom Left, give Other Extreme
 };
 
 GLuint vertexBufferObject;
