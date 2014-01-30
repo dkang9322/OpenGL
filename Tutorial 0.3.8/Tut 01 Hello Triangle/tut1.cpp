@@ -104,6 +104,7 @@ void InitializeProgram()
 	std::for_each(shaderList.begin(), shaderList.end(), glDeleteShader);
 }
 
+// This is the Clip-Space Coordinates (Normalized)
 const float vertexPositions[] = {
 	0.75f, 0.75f, 0.0f, 1.0f,
 	0.75f, -0.75f, 0.0f, 1.0f,
@@ -114,52 +115,83 @@ GLuint positionBufferObject;
 GLuint vao;
 
 
-void InitializeVertexBuffer()
-{
-	glGenBuffers(1, &positionBufferObject);
+void InitializeVertexBuffer(){
+  // Creates the Buffer Object, note pointer return
+  glGenBuffers( 1, &positionBufferObject );
 
-	glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+  // Binding and then setting of data, target (elt of Context)
+  // is GL_ARRAY_BUFFER
+  glBindBuffer( GL_ARRAY_BUFFER, positionBufferObject );
+
+  // Allocates memory for the buffer bound to GL_ARRAY_BUFFER, size of
+  // memory (in GPU) specified by sizeof()
+  // Pt.2: Copying Data from vertexPositions in to a Buffer OBject
+  glBufferData( GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW );
+  // A Clean-up: remember 0 is the de-binding number? (or a nullptr
+  // for OpenGL state machine)
+  glBindBuffer( GL_ARRAY_BUFFER, 0 );
 }
 
 //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
-void init()
-{
-	InitializeProgram();
-	InitializeVertexBuffer();
+void init(){
+  InitializeProgram();// MAke Shader
+  InitializeVertexBuffer();
 
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
+  glGenVertexArrays( 1, &vao );
+  glBindVertexArray( vao );
 }
 
 //Called to update the display.
 //You should call glutSwapBuffers after all of your rendering to display what you rendered.
 //If you need continuous updates of the screen, call glutPostRedisplay() at the end of the function.
-void display()
-{
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+void display(){
+  
+  // Recall Bindings set state i
+  // And function calls i_j
+  // GL_Context StateMachine i_j setters
+  glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+  glClear( GL_COLOR_BUFFER_BIT );
+  // Clear Screen into Color set by glClearColor
+  // GL_COLOR_BUFFER_BIT is the color buffer
 
-	glUseProgram(theProgram);
+  // Some Shader Business
+  glUseProgram( theProgram );
 
-	glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+  // Set States: i.e. set I by binding
+  // Related to Memory, Buffer Object in control! and referenced
+  // by GLuint pointer positionBufferObject
+  
+  glBindBuffer( GL_ARRAY_BUFFER, positionBufferObject );
+  // Pass To Shader Array
+  glEnableVertexAttribArray( 0 );
+  // Deals with buffer objects, currently bound to a target in OpenGL
+  // 3rd: BASE_TYPE of value (32 bit float)
+  // 2nd: how many of values of BASE_TYPE represent a vertex
+  // 5th: spacing between each set of vales in 2nd
+  // 6th: byte offset from value in buffer objects(where to start)
+  glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 0, 0 );
+  // specifies how to pass data to shader
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+  // Above Code MUST precede rendering function
 
-	glDisableVertexAttribArray(0);
-	glUseProgram(0);
+  // A Rendering Function
+  // Generates a stream of vertices, on object bound to a target in OpenGL
+  glDrawArrays( GL_TRIANGLES, 0, 3 );
+  //2nd&3rd: start index&number of indices(=vertex) from bound object to read
+  // 1st: tells 3 vertices cutt scheme
 
-	glutSwapBuffers();
+  glDisableVertexAttribArray( 0 );
+  glUseProgram( 0 );
+
+  // A FreeGLUT, an initialization system, command
+  // switch currently shown Buffer with Rendered Buffer
+  glutSwapBuffers();
 }
 
 //Called whenever the window is resized. The new window size is given, in pixels.
 //This is an opportunity to call glViewport or glScissor to keep up with the change in size.
-void reshape (int w, int h)
-{
-	glViewport(0, 0, (GLsizei) w, (GLsizei) h);
+void reshape (int w, int h){
+  	glViewport( 0, 0, (GLsizei) w, (GLsizei) h );
 }
 
 //Called whenever a key on the keyboard was pressed.
